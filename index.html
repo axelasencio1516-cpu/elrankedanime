@@ -4560,7 +4560,7 @@ async function canjearPremio(nombrePremio, costoPuntos) {
         }
 
         const userData = userSnap.data();
-        const puntosActuales = Number(localStorage.getItem('puntos_usuario')) || 0;
+        const puntosActuales = Number(userData.puntos) || 0;
 
         if (puntosActuales < costoPuntos) {
             alert("Te faltan puntos para este canje épico. ¡A participar más!");
