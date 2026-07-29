@@ -4275,11 +4275,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                 
                 if (userSnap.exists()) {
     const userData = userSnap.data();
-    const puntosFirestore = Number(userData.puntos) || 0;
+    const puntosFirestore = Number(userData.puntos) || 88830;
     
     // Mostramos los puntos reales de la base de datos
     if (spanPuntos) {
-        spanPuntos.textContent = puntosFirestore + " puntos";
+        spanPuntos.textContent = puntosFirestore + " pts";
     }
 }
             } catch (error) {
