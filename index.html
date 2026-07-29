@@ -4263,29 +4263,33 @@ async function comprarInsignia(insigniaNombre, costo) {
 }
 window.comprarInsignia = comprarInsignia;
 
-// Vigilante automático y cargador inicial de puntos
-document.addEventListener("DOMContentLoaded", () => {
-    // Si Firebase ya cargó y tiene puntos del usuario, actualizamos el localStorage para que coincida
-    const puntosFirebase = window.usuarioPuntosFirebase; // O la variable global que use tu conexión de Firebase
-    if (puntosFirebase !== undefined && puntosFirebase !== null) {
-        localStorage.setItem('puntos_usuario', puntosFirebase);
-    }
-
-    if (localStorage.getItem('puntos_usuario') === null) {
-        localStorage.setItem('puntos_usuario', '4000');
-    }
-
+document.addEventListener("DOMContentLoaded", async () => {
     const spanPuntos = document.getElementById('user-points');
-    if (spanPuntos) {
-        spanPuntos.textContent = Number(localStorage.getItem('puntos_usuario')) || 0;
-        
-        const observer = new MutationObserver(() => {
-            const puntosActuales = Number(localStorage.getItem('puntos_usuario')) || 0;  
-                spanPuntos.textContent = puntosActuales;
-            
-        });
-        observer.observe(spanPuntos, { childList: true, characterData: true, subtree: true });
-    }
+    
+    // Verificamos si hay un usuario autenticado en Firebase
+    auth.onAuthStateChanged(async (user) => {
+        if (user) {
+            try {
+                const userRef = doc(db, "usuarios", user.uid);
+                const userSnap = await getDoc(userRef);
+                
+                if (userSnap.exists()) {
+                    const userData = userSnap.data();
+                    const puntosFirestore = Number(userData.puntos) || 0;
+                    
+                    // Mostramos los puntos reales de la base de datos
+                    if (spanPuntos) {
+                        spanPuntos.textContent = puntosFirestore + " pts";
+                    }
+                }
+            } catch (error) {
+                console.error("Error al cargar los puntos de Firestore:", error);
+            }
+        } else {
+            // Si no hay sesión iniciada
+            if (spanPuntos) spanPuntos.textContent = "0 pts";
+        }
+    });
 });
 
 
