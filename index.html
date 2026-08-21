@@ -13,13 +13,13 @@
 
     <!-- ================= ENCABEZADO Y NAVBAR ================= -->
     <header>
-        <a href="#" class="logo-container">
+        <a href="#inicio" class="logo-container" aria-label="Ir al inicio de ElRankedAnime">
             <div class="logo-text">ELRANKED<span>ANIME</span></div>
         </a>
 
         <nav>
             <ul id="nav-menu">
-    <li><a href="#" class="active">Inicio</a></li>
+    <li><a href="#inicio" class="active">Inicio</a></li>
     <li><a href="#videos">Vídeos</a></li>
     <li><a href="#top200">Top 200</a></li>
     <li><a href="#top30">Top 30</a></li>
@@ -40,6 +40,29 @@
     </header>
 
     <main>
+        <!-- ================= PORTADA ================= -->
+        <section id="inicio" class="hero-section">
+            <div class="hero-copy">
+                <p class="hero-kicker">LA COMUNIDAD DE OPENINGS</p>
+                <h1>Tu ranking.<br><span>Tu opening.</span></h1>
+                <p class="hero-description">Descubre los openings más escuchados, vota por tus favoritos y compite con la comunidad en la UEFA Ranked League.</p>
+                <div class="hero-actions">
+                    <a class="hero-primary" href="#top200">Explorar Top 200</a>
+                    <button class="hero-secondary" type="button" onclick="abrirModalAuth()">Unirme a la comunidad</button>
+                </div>
+            </div>
+            <div class="hero-panel" aria-label="Resumen de ElRankedAnime">
+                <p class="hero-panel-label">EN JUEGO AHORA</p>
+                <h2>UEFA Ranked League</h2>
+                <p>Vota en los enfrentamientos, gana puntos y ayuda a coronar el opening definitivo.</p>
+                <a href="#uefa">Ver el torneo <span aria-hidden="true">→</span></a>
+            </div>
+            <div class="hero-stats" aria-label="Accesos rápidos de la comunidad">
+                <a href="#top200"><strong>200</strong><span>openings rankeados</span></a>
+                <a href="#top30"><strong>30</strong><span>éxitos del mes</span></a>
+                <a href="#archivo"><strong>1995–2026</strong><span>archivo histórico</span></a>
+            </div>
+        </section>
         <!-- ================= SECCIÓN DE VIDEOS (MINI-YOUTUBE) ================= -->
         <section id="videos" class="content-section">
             <div class="section-header">
@@ -160,6 +183,12 @@
             <!-- Controles Top 200 -->
             <div class="controls-bar">
                 <input type="text" id="top200-search" placeholder="Busca por opening, anime o artista..." onkeyup="filterTop200()">
+                <div class="filter-group ranking-sort" aria-label="Ordenar Top 200">
+                    <button class="filter-btn active" type="button" onclick="sortTop200(0)">Ranking</button>
+                    <button class="filter-btn" type="button" onclick="sortTop200(3)">YouTube</button>
+                    <button class="filter-btn" type="button" onclick="sortTop200(5)">Spotify</button>
+                    <button class="filter-btn" type="button" onclick="sortTop200(6)">Total</button>
+                </div>
             </div>
 
             <!-- Tabla Top 200 -->
@@ -3421,7 +3450,7 @@
 <!-- ================== SECCIÓN DE RACHA Y RECOMPENSAS DIARIAS ================== -->
 
     <!-- ================= SCRIPTS GENERALES ================= -->
-    <script>
+    <script type="text/plain" data-legacy="catalog-and-rewards">
         // Menú Móvil
         const mobileMenu = document.getElementById('mobile-menu');
         const navMenu = document.getElementById('nav-menu');
@@ -4048,87 +4077,6 @@ window.reclamarSuerteDiaria = async function() {
 };
 
 
-
-// Función para cargar los datos del usuario desde Firestore cuando inicia sesión
-window.cargarDatosUsuario = async function(user) {
-    if (!user) return;
-    window.miUID = user.uid;
-    window.miUsuarioUid = user.uid;
-    localStorage.setItem('user_uid', user.uid);
-    try {
-        const docRef = doc(db, "usuarios", user.uid);
-        const docSnap = await getDoc(docRef);
-
-            if (docSnap.exists()) {
-            const data = docSnap.data();
-            userProfile.points = Math.max(userProfile.points, Number(data.points ?? data.puntos) || 0);
-userProfile.streak = Math.max(userProfile.streak, Number(data.streak ?? data.racha) || 0);
-userProfile.lastClaim = data.lastClaim || data.ultimaRacha || userProfile.lastClaim;
-userProfile.esPatreon = data.esPatreon || false;
-userProfile.patreonTier = data.patreonTier || ""; // Guardamos el nivel si lo hay
-
-// Ajuste automático del multiplicador según su nivel de Patreon
-if (data.patreonTier === "hokage" || data.esHokage) {
-    userProfile.multiplier = 3; // O el valor que prefieras para Hokage
-} else if (data.patreonTier === "vip" || data.esVip || userProfile.esPatreon) {
-    userProfile.multiplier = 2; // Duplicado para VIP / Patreon general
-} else {
-    userProfile.multiplier = Math.max(userProfile.multiplier, Number(data.multiplier ?? data.multiplicador) || 1);
-}
-
-userProfile.badge = data.badge || "";
-
-            window.actualizarUIrecompensas();
-        } else {
-            await setDoc(docRef, userProfile);
-        }
-    } catch (error) {
-        console.error("Error al cargar los datos del usuario:", error);
-    }
-};
-// Función para guardar automáticamente cualquier cambio (puntos, rachas, etc.) en Firestore
-
-window.cargarDatosUsuario = async function(user) {
-    if (!user) return;
-    try {
-        const docRef = doc(db, "usuarios", user.uid);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-            const data = docSnap.data();
-            
-            // Obtenemos los puntos de Firestore o usamos los del localStorage si ya habías comprado algo
-            let puntosRemotos = Number(data.points ?? data.puntos);
-            let puntosLocales = parseInt(localStorage.getItem('puntos_usuario'));
-
-            // Si hay puntos en local por una compra reciente, los respetamos; si no, usamos los de Firebase
-            if (isNaN(puntosLocales)) {
-                userProfile.points = puntosRemotos || userProfile.points;
-                localStorage.setItem('puntos_usuario', userProfile.points);
-            } else {
-                userProfile.points = puntosLocales; // Mantiene lo que gastaste en la tienda local
-            }
-
-            userProfile.streak = Number(data.streak ?? data.racha) || userProfile.streak;
-            userProfile.multiplier = Number(data.multiplier ?? data.multiplicador) || userProfile.multiplier;
-
-            // Verificar si ya reclamó hoy al cargar los datos
-if (userProfile.lastClaim === new Date().toDateString()) {
-    const msgElement = document.getElementById('suerte-result-msg');
-    if (msgElement) {
-        msgElement.innerText = "¡Ya reclamaste tu recompensa de hoy! Vuelve mañana.";
-    }
-}
-
-            window.actualizarUIrecompensas();
-        } else {
-            await setDoc(docRef, userProfile);
-        }
-    } catch (error) {
-        console.error("Error al cargar los datos del usuario:", error);
-    }
-};
-
     window.actualizarUIrecompensas();
     
 window.comprarItem = function(multiplicador, costo) {
@@ -4157,76 +4105,7 @@ window.comprarItem = function(multiplicador, costo) {
 
     alert(`¡Compra exitosa del potenciador X${multiplicador}!`);
 };
-// Asegúrate de restar directo sobre la propiedad que muestra la interfaz
-userProfile.points = Number(userProfile.points) - Number(costo);
 
-// Fuerzas la actualización inmediata del elemento en el HTML con su texto exacto
-document.getElementById('user-points').innerText = userProfile.points + " pts";
-
-// 4. Sincronizar con Firebase de forma segura
-setTimeout(async () => {
-    try {
-        if (typeof docRef !== 'undefined' && typeof setDoc !== 'undefined') {
-            await setDoc(docRef, userProfile, { merge: true });
-            console.log("¡Potenciador guardado en Firebase exitosamente!");
-        } else if (typeof window.guardarDatosUsuario === 'function') {
-            await window.guardarDatosUsuario();
-        }
-    } catch (error) {
-        console.error("Error al sincronizar la compra en Firebase:", error);
-    }
-}, 500);
-
-
-        // Cargar inventario del usuario si ya existe
-        let userInventory = JSON.parse(localStorage.getItem('up_inventory')) || [];
-
-        function actualizarInventarioUI() {
-            const badgeBox = document.getElementById('user-badges-box');
-            if (!badgeBox) return;
-
-            if (userInventory.length === 0) {
-                badgeBox.innerText = "Ninguno adquirido aún";
-            } else {
-                badgeBox.innerText = userInventory.join(" | ");
-            }
-            localStorage.setItem('up_inventory', JSON.stringify(userInventory));
-        }
-
-
-window.cargarDatosUsuario = async function(user) {
-    if (!user) return;
-    try {
-        const docRef = doc(db, "usuarios", user.uid);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-            const data = docSnap.data();
-            
-            // Obtenemos los puntos de Firestore o usamos los del localStorage si ya habías comprado algo
-            let puntosRemotos = Number(data.points ?? data.puntos);
-            let puntosLocales = parseInt(localStorage.getItem('puntos_usuario'));
-
-            // Si hay puntos en local por una compra reciente, los respetamos; si no, usamos los de Firebase
-            if (isNaN(puntosLocales)) {
-                userProfile.points = puntosRemotos || userProfile.points;
-                localStorage.setItem('puntos_usuario', userProfile.points);
-            } else {
-                userProfile.points = puntosLocales; // Mantiene lo que gastaste en la tienda local
-            }
-
-            userProfile.streak = Number(data.streak ?? data.racha) || userProfile.streak;
-            userProfile.lastClaim = data.lastClaim || data.ultimaRacha || userProfile.lastClaim;
-            userProfile.multiplier = Number(data.multiplier ?? data.multiplicador) || userProfile.multiplier;
-
-            window.actualizarUIrecompensas();
-        } else {
-            await setDoc(docRef, userProfile);
-        }
-    } catch (error) {
-        console.error("Error al cargar los datos del usuario:", error);
-    }
-};
 
 async function comprarInsignia(insigniaNombre, costo) {
     try {
@@ -4324,7 +4203,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 </div>
 
 <!-- ================== SCRIPT DE FUNCIONALIDAD ================== -->
-<script type="module">
+<script type="text/plain" data-legacy="firebase-and-votes">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
     import { getFirestore, doc, setDoc, getDoc, updateDoc, increment, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -4610,10 +4489,6 @@ if (ptsEl) ptsEl.innerText = nuevosPuntos + " pts";
     }
 }
 
-window.canjearPremio = canjearPremio;
-
-// ¡Esta línea es la que hace visible la función para el botón HTML!
-window.canjearPremio = canjearPremio;
 </script>
 
 <!-- ================== VENTANA MODAL DE PERFIL DE USUARIO ================== -->
@@ -4652,7 +4527,7 @@ window.canjearPremio = canjearPremio;
     </div>
 </div>
 
-<script type="module">
+<script type="text/plain" data-legacy="legacy-profile">
     let imagenBase64Temporal = "";
 
     // 1. Declarar las funciones globales al mismo nivel del módulo para que el HTML las encuentre siempre
@@ -4762,16 +4637,6 @@ window.canjearPremio = canjearPremio;
             });
         }
     });
-    window.abrirModalPerfil = function() {
-    const modal = document.getElementById('perfil-modal');
-    if (modal) {
-        modal.style.display = 'flex';
-        // Cargar los datos y los puntos reales automáticamente al abrir
-        if (typeof currentUserUID !== 'undefined' && currentUserUID) {
-            cargarDatosPerfilFirebase(currentUserUID);
-        }
-    }
-};
         
 
 </script>
@@ -4811,171 +4676,19 @@ window.canjearPremio = canjearPremio;
     </div>
 </section>
 
-<div class="pase-batalla-box" style="border: 1px solid #00ffcc; padding: 15px; margin: 20px 0; border-radius: 8px;">
-    <h3>🎫 Pase de Batalla Express (Temporada Actual)</h3>
-    <p>¡Completa misiones de la comunidad, acumula puntos más rápido y alcanza los rangos de Bleach, Naruto y One Piece! Recuerda mandar fotos de las misiones a Discord para canjear tu código de la misión</p>
-    <ul>
-        <li>✅ <b>Nivel 1:</b> Suscríbete al ElRankedAnime — <i>500 Pts</i></li>
-        <li>✅ <b>Nivel 2:</b> únete al Canal de Discord — <i>500 Pts</i></li>
-        <li>✅ <b>Nivel 3:</b> Comparte tu clip o captura en Discord — <i>1,000 Pts</i></li>
-        <li>✅ <b>Nivel 4:</b> Comenta un video de ElRankedAnime — <i>1,000 Pts</i></li>
-    </ul>
-</div>
+
+
 <script>
-    function canjearCodigo(codigo, puntosRecompensa) {
-    let codigosUsados = JSON.parse(localStorage.getItem('codigos_canjeados')) || [];
-    
-    if (codigosUsados.includes(codigo)) {
-        alert("¡Ya canjeaste este código anteriormente!");
-        return;
-    }
-
-    // Sumamos los puntos
-    let puntosActuales = parseInt(localStorage.getItem('puntos_usuario')) || 0;
-    puntosActuales += puntosRecompensa;
-    
-    localStorage.setItem('puntos_usuario', puntosActuales);
-    localStorage.setItem('up_points', puntosActuales);
-    userProfile.points = puntosActuales;
-    
-    // Guardamos el código como usado
-    codigosUsados.push(codigo);
-    localStorage.setItem('codigos_canjeados', JSON.stringify(codigosUsados));
-
-    alert(`¡Código canjeado con éxito! Has ganado ${puntosRecompensa} puntos.`);
-    location.reload();
-}
-window.canjearCodigo = canjearCodigo;
-
-// --- PANEL DE ADMINISTRADOR SECRETO PARA PUNTOS ---
-// Presiona las teclas Ctrl + Shift + A en tu teclado para abrir el panel de admin en cualquier momento.
-document.addEventListener('keydown', function(event) {
-    if (event.ctrlKey && event.shiftKey && event.key.toUpperCase() === 'A') {
-        event.preventDefault();
-        
-        let password = prompt("🔐 Ingresa la clave de Administrador de ElRankedAnime:");
-        // Puedes cambiar "1234" por la contraseña secreta que tú quieras
-        if (password === "1234") {
-            let accion = prompt("Elige una opción:\n1. Sumar puntos a un usuario\n2. Otorgar Pase de Batalla / Recompensa rápida");
-            
-            if (accion === "1") {
-                let puntosExtra = parseInt(prompt("¿Cuántos puntos deseas sumar?"));
-                if (!isNaN(puntosExtra)) {
-                    let puntosActuales = parseInt(localStorage.getItem('puntos_usuario')) || 0;
-                    let nuevosPuntos = puntosActuales + puntosExtra;
-                    
-                    localStorage.setItem('puntos_usuario', nuevosPuntos);
-                    localStorage.setItem('up_points', nuevosPuntos);
-                    userProfile.points = nuevosPuntos;
-                    
-                    alert(`¡Éxito! Se han sumado ${puntosExtra} puntos. Ahora tienes ${nuevosPuntos} puntos.`);
-                    location.reload();
-                }
-            } else if (accion === "2") {
-                alert("¡Modo de validación rápida de pase de batalla activado! Listo para otorgar roles y capturas.");
-            }
-        } else if (password !== null) {
-            alert("❌ Contraseña incorrecta.");
-        }
-    }
-});
+    window.addEventListener('DOMContentLoaded', () => {
+        window.setTimeout(() => {
+            if (typeof window.abrirModalAuth === 'function') return;
+            const notice = document.createElement('p');
+            notice.textContent = 'La web debe abrirse desde un servidor local (por ejemplo: npm run serve), no con doble clic en index.html.';
+            notice.style.cssText = 'position:fixed;bottom:16px;left:16px;right:16px;z-index:100000;background:#32121f;border:1px solid #ff0055;color:#fff;padding:12px;border-radius:8px;text-align:center;font:14px Roboto,sans-serif;';
+            document.body.append(notice);
+        }, 0);
+    });
 </script>
-<script>
-// --- PANEL DE ADMIN PARA DAR PUNTOS (MODO DIRECTO) ---
-// Presiona las teclas Ctrl + Shift + U para sumar puntos a la cuenta actual
-document.addEventListener('keydown', function(event) {
-    if (event.ctrlKey && event.shiftKey && event.key.toUpperCase() === 'U') {
-        event.preventDefault();
-        
-        let password = prompt("🔐 Ingresa la clave de Administrador:");
-        if (password === "1234") {
-            let nombreUsuario = prompt("Escribe el nombre o correo del miembro a premiar:");
-            
-            if (nombreUsuario) {
-                let puntosRegalo = parseInt(prompt(`¿Cuántos puntos deseas darle a ${nombreUsuario}?`));
-                
-                if (!isNaN(puntosRegalo)) {
-                    // Sumamos los puntos directamente al almacenamiento local de la sesión activa
-                    let puntosActuales = parseInt(localStorage.getItem('puntos_usuario')) || 0;
-                    let nuevosPuntos = puntosActuales + puntosRegalo;
-                    
-                    localStorage.setItem('puntos_usuario', nuevosPuntos);
-                    localStorage.setItem('up_points', nuevosPuntos);
-                    userProfile.points = nuevosPuntos;
-
-                    // Actualizamos el texto en la pantalla al instante
-                    const spanPuntos = document.getElementById('user-points');
-                    if (spanPuntos) spanPuntos.textContent = nuevosPuntos;
-
-                    alert(`🎉 ¡Éxito! Se han sumado ${puntosRegalo} puntos a la cuenta de: ${nombreUsuario}.\n\nNuevos puntos totales: ${nuevosPuntos}`);
-                    location.reload(); // Recarga para aplicar los cambios visuales globales
-                }
-            }
-        } else if (password !== null) {
-            alert("❌ Contraseña incorrecta.");
-        }
-    }
-});
-</script>
-<script>
-    // --- SISTEMA DE CANJE DE CÓDIGOS PARA LA COMUNIDAD ---
-function canjearCodigoComunidad() {
-    let codigoIngresado = prompt("🎁 Ingresa tu código de misión o pase de batalla:");
-    if (!codigoIngresado) return;
-
-    // Limpiamos y convertimos a mayúsculas para evitar errores
-    let codigo = codigoIngresado.trim().toUpperCase();
-    
-    // Verificamos si ya usó este código en este navegador
-    let codigosUsados = JSON.parse(localStorage.getItem('codigos_canjeados recarga la página')) || [];
-    if (codigosUsados.includes(codigo)) {
-        alert("❌ ¡Este código ya ha sido canjeado en esta cuenta!");
-        return;
-    }
-
-    let puntosGanados = 0;
-
-    // Definimos las recompensas según el código que les des
-    if (codigo === "UEFA_VOTO_1") {
-        puntosGanados = 500;
-    } else if (codigo === "RACHA_3_DIAS") {
-        puntosGanados = 1000;
-    } else if (codigo === "DISCORD_CLIP") {
-        puntosGanados = 2000;
-    } else if (codigo === "PATROCINADOR_VIP") {
-        puntosGanados = 5000;
-        } else if (codigo === "HOLA_MUNDO") {
-        puntosGanados = 5000;
-    } else {
-        alert("❌ Código inválido o expirado. ¡Verifica bien las mayúsculas y números!");
-        return;
-    }
-
-    // Sumamos los puntos a su perfil local
-    let puntosActuales = parseInt(localStorage.getItem('puntos_usuario')) || 0;
-    let nuevosPuntos = puntosActuales + puntosGanados;
-
-    localStorage.setItem('puntos_usuario', nuevosPuntos);
-    localStorage.setItem('up_points', nuevosPuntos);
-    userProfile.points = nuevosPuntos;
-
-    // Registramos el código como usado
-    codigosUsados.push(codigo);
-    localStorage.setItem('codigos_canjeados', JSON.stringify(codigosUsados));
-
-    // Actualizamos la pantalla al instante
-    const spanPuntos = document.getElementById('user-points');
-    if (spanPuntos) spanPuntos.textContent = nuevosPuntos;
-
-    alert(`🎉 ¡Canje exitoso!\nHas ganado ${puntosGanados} puntos, recarga la página para seguir disfrutando.\nTus nuevos puntos totales: ${nuevosPuntos}`);
-    location.reload();
-}
-window.canjearCodigoComunidad = canjearCodigoComunidad;
-</script>
-<button onclick="canjearCodigoComunidad()" style="background: #00ffcc; color: #000; padding: 10px 20px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px;">
-    🎁 Canjear Código de Misión
-</button>
-
-
+<script type="module" src="js/main.js"></script>
 </body>
 </html>

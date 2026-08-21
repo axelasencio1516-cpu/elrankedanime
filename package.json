@@ -1,0 +1,8 @@
+{
+  "name": "elrankedanime",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "serve": "node dev-server.js"
+  }
+}
