@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ElRankedAnime | El Universo de los Openings</title>
+    <link rel="icon" href="assets/elrankedanime-icon.svg" type="image/svg+xml">
     <!-- Fuentes de Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <!-- Enlace al archivo CSS unificado -->
@@ -3231,6 +3232,20 @@
         </a>
     </div>
 </section>
+<!-- ================= MODAL FASES FINALES UEFA ================= -->
+<div id="uefa-finals-modal" class="finals-modal" role="dialog" aria-modal="true" aria-labelledby="uefa-finals-title" aria-hidden="true">
+    <div class="finals-modal__dialog">
+        <div class="finals-modal__header">
+            <div>
+                <p>UEFA RANKED LEAGUE</p>
+                <h2 id="uefa-finals-title">Fases finales</h2>
+            </div>
+            <button type="button" class="finals-modal__close" onclick="cerrarFasesFinales()" aria-label="Cerrar fases finales">×</button>
+        </div>
+        <p class="finals-modal__intro">Las llaves se completarán con los clasificados de la fase de grupos.</p>
+        <div id="uefa-finals-content" class="finals-modal__content"></div>
+    </div>
+</div>
     </section>
     <!-- ================= SECCIÓN MUSEO / GALERÍA DE POSTERS ================= -->
     <section id="museo" class="content-section">
@@ -3427,7 +3442,7 @@
                     <li>⭐ Códigos semanales para puntos</li>
                     <li>⭐ Código inicial para 5,000 puntos</li>
                 </ul>
-                <a href="https://patreon.com" target="_blank" class="btn-reward vip">Vincular Patreon</a>
+                <button type="button" onclick="conectarPatreon()" class="btn-reward vip">Vincular Patreon</button>
             </div>
         </div>
     </section>
@@ -4676,6 +4691,11 @@ if (ptsEl) ptsEl.innerText = nuevosPuntos + " pts";
     </div>
 </section>
 
+<footer class="site-footer">
+    <span>© ElRankedAnime</span>
+    <nav aria-label="Enlaces legales"><a href="privacy.html">Política de Privacidad</a><a href="terms.html">Términos de Servicio</a></nav>
+</footer>
+
 
 
 <script>
@@ -4689,6 +4709,6 @@ if (ptsEl) ptsEl.innerText = nuevosPuntos + " pts";
         }, 0);
     });
 </script>
-<script type="module" src="./main.js"></script>
+<script type="module" src="js/main.js"></script>
 </body>
 </html>

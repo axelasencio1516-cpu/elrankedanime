@@ -17,6 +17,7 @@ import {
   runTransaction,
   onSnapshot,
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-functions.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCENeaCEOaam4ZL4sP5i4pQKHhnRrcjvo8",
@@ -30,11 +31,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const functions = getFunctions(app, "us-central1");
 const googleProvider = new GoogleAuthProvider();
 
 export {
   auth,
   db,
+  functions,
   googleProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -47,4 +50,5 @@ export {
   updateDoc,
   runTransaction,
   onSnapshot,
+  httpsCallable,
 };

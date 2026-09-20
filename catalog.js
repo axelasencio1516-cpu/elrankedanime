@@ -64,7 +64,7 @@ function renderGroup(index, entries = []) {
     </li>`;
   }).join("");
   return `<article class="uefa-group-card">
-    <header><h3>${groupName(index)}</h3><span>4 participantes</span></header>
+    <div class="uefa-group-card__header"><h3>${groupName(index)}</h3><span>4 participantes</span></div>
     <ol class="uefa-standings">${participants}</ol>
     <p class="uefa-group-note">Los votos aparecerán aquí cuando inicie la competencia.</p>
   </article>`;
@@ -87,16 +87,35 @@ export function changeUefaCategory(category) {
 }
 export function showGroupStage() { changeUefaCategory("shonen"); }
 export function showFinalStage() {
-  const container = document.getElementById("uefa-categorias-container");
-  if (!container) return;
-  stopGroupUpdates?.();
-  stopGroupUpdates = null;
+  const modal = document.getElementById("uefa-finals-modal");
+  const content = document.getElementById("uefa-finals-content");
+  if (!modal || !content) return;
   const rounds = [
-    ["16vos de final", 16], ["8vos de final", 8], ["4tos de final", 4], ["Semifinal", 2], ["Tercer puesto", 1], ["Final", 1],
+    ["16vos de final", 16], ["Octavos de final", 8], ["Cuartos de final", 4], ["Semifinal", 2], ["Final", 1],
   ];
-  const bracket = rounds.map(([name, count]) => `<section class="bracket-round"><header><h3>${name}</h3><span>${count} ${count === 1 ? "partido" : "partidos"}</span></header>${Array.from({ length: count }, (_, index) => `<article class="bracket-match"><p>Partido ${index + 1}</p><div><span>Por definir</span><strong>0</strong></div><div><span>Por definir</span><strong>0</strong></div></article>`).join("")}</section>`).join("");
-  const schedule = rounds.flatMap(([name, count]) => Array.from({ length: count }, (_, index) => `<tr><td>${name}</td><td>Partido ${index + 1}</td><td>Por definir <span>vs</span> Por definir</td><td>Próximamente</td></tr>`)).join("");
-  container.innerHTML = `<div class="uefa-finals-intro"><p>CUADRO PRINCIPAL</p><h3>Fases finales de la UEFA Ranked League</h3><span>Las llaves se completarán automáticamente con los clasificados de cada grupo.</span></div><div class="tournament-bracket">${bracket}</div><div class="match-table-wrap"><h3>Tabla de enfrentamientos</h3><table class="match-table"><thead><tr><th>Fase</th><th>Encuentro</th><th>Duelo</th><th>Estado</th></tr></thead><tbody>${schedule}</tbody></table></div>`;
+  const bracket = rounds.map(([name, count]) => `<section class="bracket-round"><div class="bracket-round__header"><h3>${name}</h3><span>${count} ${count === 1 ? "partido" : "partidos"}</span></div>${Array.from({ length: count }, (_, index) => `<article class="bracket-match"><p>Partido ${index + 1}</p><div><span>Por definir</span><strong>0</strong></div><div><span>Por definir</span><strong>0</strong></div></article>`).join("")}</section>`).join("");
+  content.innerHTML = `<div class="tournament-bracket">${bracket}</div>`;
+  modal.style.display = "flex";
+  modal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+}
+
+export function closeFinalsModal() {
+  const modal = document.getElementById("uefa-finals-modal");
+  if (!modal) return;
+  modal.style.display = "none";
+  modal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-open");
+}
+
+export function initFinalsModal() {
+  const modal = document.getElementById("uefa-finals-modal");
+  modal?.addEventListener("click", (event) => {
+    if (event.target === modal) closeFinalsModal();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && modal?.style.display === "flex") closeFinalsModal();
+  });
 }
 export function openYearModal(year) {
   document.getElementById("modal-year-title").textContent = `Top Openings del Año ${year}`;

@@ -24,6 +24,7 @@ export function setProfile(nextProfile) {
 }
 export function getVoteMultiplier() {
   const tier = String(profile.patreonTier || "").toLowerCase();
-  const patreonMultiplier = profile.esPatreon || tier === "vip" || tier === "hokage" ? 2 : 1;
-  return Math.max(Number(profile.multiplicador) || 1, patreonMultiplier);
+  const baseMultiplier = Number(profile.multiplicador) || 1;
+  const patreonBonus = profile.esPatreon || tier === "vip" || tier === "hokage" || tier === "patreon" ? 2 : 1;
+  return baseMultiplier * patreonBonus;
 }

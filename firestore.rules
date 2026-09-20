@@ -1,0 +1,42 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // Cada persona solo puede leer y actualizar su propio perfil, incluidas
+    // las recompensas diarias, racha, compras e inventario.
+    match /usuarios/{userId} {
+      allow create: if signedIn()
+                    && request.auth.uid == userId
+                    && request.resource.data.esPatreon == false;
+      allow read, delete: if signedIn() && request.auth.uid == userId;
+      // El usuario puede actualizar su progreso, pero nunca concederse a sí
+      // mismo una membresía Patreon. Solo Admin SDK/Cloud Functions lo hace.
+      allow update: if signedIn()
+                    && request.auth.uid == userId
+                    && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+                      'email', 'puntos', 'racha', 'ultimaRacha', 'multiplicador',
+                      'inventario', 'nombrePublico', 'fotoPerfil',
+                      'insigniaEquipada', 'historialCanjes'
+                    ]);
+    }
+
+    // Los enfrentamientos son públicos y requieren cuenta para votar.
+    // La validación antitrampas más estricta se trasladará a Cloud Functions.
+    match /votaciones/{matchId} {
+      allow read: if true;
+      allow update: if signedIn();
+      allow create, delete: if false;
+    }
+
+    // Clasificaciones que se muestran en la web. Solo un administrador
+    // deberá escribirlas desde un panel o función de servidor.
+    match /uefaLeague/{categoryId} {
+      allow read: if true;
+      allow write: if false;
+    }
+  }
+}

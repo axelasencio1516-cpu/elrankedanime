@@ -2,9 +2,10 @@ import { initAuth, openAuthModal, closeAuthModal, register, login, loginWithGoog
 import { initProfile, openProfileModal, closeProfileModal } from "./profile.js";
 import { claimDailyReward, buyMultiplier, buyBadge, redeemPrize } from "./rewards.js";
 import { vote, loadMatch } from "./votes.js";
+import { connectPatreon } from "./patreon.js";
 import {
   filterVideos, filterTop200, filterTop30, filterMuseum, filterVideoCategory, filterMuseumCategory, sortTop200,
-  changeUefaCategory, showGroupStage, showFinalStage, openYearModal, closeYearModal,
+  changeUefaCategory, showGroupStage, showFinalStage, closeFinalsModal, initFinalsModal, openYearModal, closeYearModal,
 } from "./catalog.js";
 
 Object.assign(window, {
@@ -13,8 +14,9 @@ Object.assign(window, {
   cerrarSesionModal: logout, abrirModalPerfil: openProfileModal, cerrarModalPerfil: closeProfileModal,
   reclamarSuerteDiaria: claimDailyReward, comprarItem: buyMultiplier, comprarInsignia: buyBadge,
   canjearPremio: redeemPrize, votar: vote, filterVideos, filterTop200, filterTop30, filterMuseum, sortTop200,
+  conectarPatreon: connectPatreon,
   filterCategory: filterVideoCategory, filterMuseumCat: filterMuseumCategory, cambiarCategoria: changeUefaCategory,
-  mostrarFaseGrupos: showGroupStage, mostrarFasesFinales: showFinalStage, openYearModal, closeYearModal,
+  mostrarFaseGrupos: showGroupStage, mostrarFasesFinales: showFinalStage, cerrarFasesFinales: closeFinalsModal, openYearModal, closeYearModal,
   canjearCodigo: () => alert("Los códigos se administrarán desde el servidor antes de activarse."),
   canjearCodigoComunidad: () => alert("Los códigos se administrarán desde el servidor antes de activarse."),
 });
@@ -27,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   document.getElementById("mobile-menu")?.addEventListener("click", () => document.getElementById("nav-menu")?.classList.toggle("active"));
   initProfile();
+  initFinalsModal();
   initAuth();
   loadMatch();
   changeUefaCategory("shonen");

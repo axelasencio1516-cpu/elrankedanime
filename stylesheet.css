@@ -86,17 +86,38 @@ body {
 .uefa-stage-heading h3, .uefa-finals-intro h3 { color: var(--neon-cyan); font-family: 'Orbitron', sans-serif; font-size: 1.3rem; margin-bottom: 7px; }
 .uefa-stage-heading span, .uefa-finals-intro span { color: var(--text-muted); font-size: 0.85rem; }
 .uefa-group-card { background: linear-gradient(145deg, #171725, #101018); border: 1px solid rgba(0, 243, 255, 0.35); border-radius: 10px; box-shadow: 0 0 15px rgba(0, 243, 255, 0.08); padding: 17px; }
-.uefa-group-card header { align-items: center; border-bottom: 1px solid rgba(0, 243, 255, 0.18); display: flex; justify-content: space-between; margin-bottom: 12px; padding-bottom: 10px; }
+.uefa-group-card__header { align-items: center; border-bottom: 1px solid rgba(0, 243, 255, 0.18); display: flex; justify-content: space-between; margin-bottom: 12px; padding-bottom: 10px; }
 .uefa-group-card h3 { color: var(--neon-cyan); font-family: 'Orbitron', sans-serif; font-size: 0.92rem; }
-.uefa-group-card header span { color: var(--text-muted); font-size: 0.68rem; }
+.uefa-group-card__header span { color: var(--text-muted); font-size: 0.68rem; }
 .uefa-standings { display: flex; flex-direction: column; gap: 6px; list-style: none; }
 .uefa-standing { align-items: center; background: rgba(255,255,255,0.035); border-left: 3px solid #555; border-radius: 4px; display: grid; gap: 8px; grid-template-columns: 19px 1fr auto; padding: 8px; }
 .uefa-standing.uefa-qualifying { background: rgba(0, 243, 255, 0.08); border-left-color: var(--neon-cyan); }
 .uefa-position { color: var(--text-muted); font-size: 0.75rem; }.uefa-team { color: var(--text-main); font-size: 0.78rem; }.uefa-standing strong { color: var(--neon-cyan); font-family: 'Orbitron', sans-serif; font-size: 0.7rem; }.uefa-group-note { color: var(--text-muted); font-size: 0.68rem; line-height: 1.4; margin-top: 12px; }
 .tournament-bracket { display: grid; gap: 14px; grid-column: 1 / -1; grid-template-columns: repeat(6, minmax(190px, 1fr)); overflow-x: auto; padding: 8px 2px 18px; }
-.bracket-round { display: flex; flex-direction: column; gap: 9px; min-width: 190px; }.bracket-round > header { border-bottom: 1px solid rgba(0, 243, 255, 0.35); padding-bottom: 8px; }.bracket-round h3 { color: var(--neon-cyan); font-family: 'Orbitron', sans-serif; font-size: 0.74rem; }.bracket-round header span { color: var(--text-muted); font-size: 0.65rem; }
+.bracket-round { display: flex; flex-direction: column; gap: 9px; min-width: 190px; }.bracket-round__header { border-bottom: 1px solid rgba(0, 243, 255, 0.35); padding-bottom: 8px; }.bracket-round h3 { color: var(--neon-cyan); font-family: 'Orbitron', sans-serif; font-size: 0.74rem; }.bracket-round__header span { color: var(--text-muted); font-size: 0.65rem; }
 .bracket-match { background: #151521; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; overflow: hidden; }.bracket-match > p { color: var(--neon-pink); font-family: 'Orbitron', sans-serif; font-size: 0.58rem; padding: 7px 9px 4px; }.bracket-match div { align-items: center; border-top: 1px solid rgba(255,255,255,0.06); display: flex; font-size: 0.7rem; justify-content: space-between; padding: 7px 9px; }.bracket-match div strong { color: var(--neon-cyan); }
 .match-table-wrap { background: var(--panel-bg); border: 1px solid rgba(0, 243, 255, 0.2); border-radius: 10px; grid-column: 1 / -1; margin-top: 12px; overflow-x: auto; padding: 20px; }.match-table-wrap h3 { color: var(--neon-cyan); font-family: 'Orbitron', sans-serif; font-size: 1rem; margin-bottom: 14px; }.match-table { border-collapse: collapse; min-width: 650px; width: 100%; }.match-table th { color: var(--neon-cyan); font-family: 'Orbitron', sans-serif; font-size: 0.7rem; text-align: left; }.match-table td, .match-table th { border-bottom: 1px solid rgba(255,255,255,0.07); padding: 11px 8px; }.match-table td { color: var(--text-muted); font-size: 0.78rem; }.match-table td span { color: var(--neon-pink); margin: 0 8px; }
+
+/* --- MODAL DE FASES FINALES --- */
+body.modal-open { overflow: hidden; }
+.finals-modal { align-items: center; backdrop-filter: blur(8px); background: rgba(5, 5, 12, 0.84); display: none; inset: 0; justify-content: center; padding: 24px; position: fixed; z-index: 10001; }
+.finals-modal__dialog { background: linear-gradient(145deg, #181827, #0d0d16); border: 1px solid rgba(0, 243, 255, 0.5); border-radius: 14px; box-shadow: 0 0 45px rgba(0, 243, 255, 0.17); color: var(--text-main); max-height: min(84vh, 920px); max-width: 1440px; overflow: hidden; padding: 24px; width: min(100%, 1440px); }
+.finals-modal__header { align-items: center; border-bottom: 1px solid rgba(0, 243, 255, 0.24); display: flex; justify-content: space-between; padding-bottom: 16px; }
+.finals-modal__header p { color: var(--neon-pink); font-family: 'Orbitron', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 6px; }
+.finals-modal__header h2 { color: var(--neon-cyan); font-family: 'Orbitron', sans-serif; font-size: clamp(1.15rem, 3vw, 1.6rem); }
+.finals-modal__close { background: transparent; border: 1px solid rgba(0, 243, 255, 0.45); border-radius: 50%; color: var(--neon-cyan); cursor: pointer; font-size: 1.8rem; height: 38px; line-height: 1; transition: var(--transition-speed); width: 38px; }
+.finals-modal__close:hover { background: var(--neon-cyan); color: var(--bg-color); }
+.finals-modal__intro { color: var(--text-muted); font-size: 0.86rem; margin: 16px 0; }
+.finals-modal__content { max-height: calc(min(84vh, 920px) - 150px); overflow: auto; padding-bottom: 8px; }
+.finals-modal .tournament-bracket { grid-template-columns: repeat(5, minmax(180px, 1fr)); }
+@media (max-width: 600px) { .finals-modal { padding: 10px; }.finals-modal__dialog { border-radius: 10px; padding: 16px; }.finals-modal__content { max-height: calc(84vh - 145px); }.finals-modal .tournament-bracket { grid-template-columns: repeat(5, minmax(160px, 1fr)); } }
+
+/* --- PÁGINAS LEGALES Y PIE --- */
+.site-footer { align-items: center; border-top: 1px solid rgba(0, 243, 255, 0.16); color: var(--text-muted); display: flex; font-size: 0.78rem; justify-content: space-between; padding: 24px 5%; }
+.site-footer nav, .legal-links { display: flex; gap: 18px; }.site-footer a, .legal-links a { color: var(--neon-cyan); text-decoration: none; }.site-footer a:hover, .legal-links a:hover { text-decoration: underline; }
+.legal-page { margin: 0 auto; max-width: 900px; min-height: 100vh; padding: 110px 24px 56px; }.legal-brand { color: var(--text-main); display: inline-block; font-family: 'Orbitron', sans-serif; font-weight: 900; margin-bottom: 28px; text-decoration: none; }.legal-brand span { color: var(--neon-cyan); }
+.legal-card { background: var(--panel-bg); border: 1px solid rgba(0, 243, 255, 0.22); border-radius: 12px; padding: clamp(24px, 5vw, 48px); }.legal-kicker { color: var(--neon-pink); font-family: 'Orbitron', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 10px; }.legal-card h1 { font-family: 'Orbitron', sans-serif; font-size: clamp(1.7rem, 5vw, 2.5rem); margin-bottom: 8px; }.legal-updated { color: var(--text-muted); font-size: 0.8rem; margin-bottom: 32px; }.legal-card h2 { color: var(--neon-cyan); font-family: 'Orbitron', sans-serif; font-size: 1rem; margin: 28px 0 9px; }.legal-card p { color: var(--text-muted); line-height: 1.7; }.legal-links { margin-top: 22px; }
+@media (max-width: 600px) { .site-footer { align-items: flex-start; flex-direction: column; gap: 12px; }.legal-page { padding: 94px 16px 40px; } }
 
 /* --- BARRA DE NAVEGACIÓN (STICKY NAVBAR) --- */
 header {
@@ -536,7 +557,7 @@ nav ul li a.active {
     text-shadow: 0 0 6px rgba(0, 243, 255, 0.4);
 }
 /* --- RESPONSIVE MÓVILES --- */
-@media (max-width: 900px) {
+@media (max-width: 1200px) {
     nav ul {
         position: absolute;
         top: 70px;
