@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">ElRankedAnime</title>
+  <desc id="desc">Icono cuadrado de ElRankedAnime con las letras ERA.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#121222"/>
+      <stop offset="1" stop-color="#08080e"/>
+    </linearGradient>
+    <linearGradient id="neon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#00f3ff"/>
+      <stop offset="1" stop-color="#9d00ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="92" fill="url(#bg)"/>
+  <rect x="26" y="26" width="460" height="460" rx="72" fill="none" stroke="url(#neon)" stroke-width="12"/>
+  <path d="M105 136h156v54h-94v39h79v52h-79v41h98v54H105z" fill="#fff"/>
+  <path d="M286 136h74c57 0 91 26 91 76 0 31-15 55-41 67l53 97h-67l-43-82h-5v82h-62zm62 106h12c20 0 31-10 31-28 0-17-11-27-31-27h-12z" fill="#fff"/>
+  <path d="M324 408h92" stroke="#00f3ff" stroke-linecap="round" stroke-width="16"/>
+</svg>

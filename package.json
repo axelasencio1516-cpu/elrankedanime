@@ -1,8 +1,12 @@
 {
-  "name": "elrankedanime",
+  "name": "elrankedanime-functions",
   "private": true,
   "type": "module",
-  "scripts": {
-    "serve": "node dev-server.js"
+  "engines": {
+    "node": "20"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.0.0",
+    "firebase-functions": "^6.0.0"
   }
 }
