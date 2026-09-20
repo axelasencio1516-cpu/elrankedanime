@@ -175,6 +175,27 @@ nav ul li a.active {
     text-shadow: 0 0 8px rgba(0, 243, 255, 0.6);
 }
 
+/* El acceso es un botón, no un enlace vacío: así nunca añade "#" a la URL. */
+.nav-auth-button {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    padding: 0;
+    text-transform: uppercase;
+    transition: var(--transition-speed);
+}
+
+.nav-auth-button:hover,
+.nav-auth-button:focus-visible {
+    color: var(--neon-cyan);
+    outline: none;
+    text-shadow: 0 0 8px rgba(0, 243, 255, 0.6);
+}
+
 .btn-account {
     background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
     color: var(--bg-color) !important;
