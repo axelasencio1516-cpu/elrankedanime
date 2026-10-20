@@ -4698,17 +4698,7 @@ if (ptsEl) ptsEl.innerText = nuevosPuntos + " pts";
 
 
 
-<script>
-    window.addEventListener('DOMContentLoaded', () => {
-        window.setTimeout(() => {
-            if (typeof window.abrirModalAuth === 'function') return;
-            const notice = document.createElement('p');
-            notice.textContent = 'La web debe abrirse desde un servidor local (por ejemplo: npm run serve), no con doble clic en index.html.';
-            notice.style.cssText = 'position:fixed;bottom:16px;left:16px;right:16px;z-index:100000;background:#32121f;border:1px solid #ff0055;color:#fff;padding:12px;border-radius:8px;text-align:center;font:14px Roboto,sans-serif;';
-            document.body.append(notice);
-        }, 0);
-    });
-</script>
-<script type="module" src="js/main.js"></script>
+<!-- La ruta relativa funciona igual en Go Live y en un sitio de proyecto de GitHub Pages. -->
+<script type="module" src="./js/main.js?v=20261020"></script>
 </body>
 </html>

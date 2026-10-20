@@ -1,5 +1,5 @@
-import { db, doc, getDoc, setDoc, updateDoc } from "./firebase.js";
-import { defaultProfile, getCurrentUser, getProfile, getVoteMultiplier, setProfile } from "./state.js";
+import { db, doc, getDoc, setDoc, updateDoc } from "./firebase.js?v=20261020";
+import { defaultProfile, getCurrentUser, getProfile, getVoteMultiplier, setProfile } from "./state.js?v=20261020";
 
 function renderProfile() {
   const profile = getProfile();

@@ -1,4 +1,4 @@
-import { auth, functions, httpsCallable } from "./firebase.js";
+import { auth, functions, httpsCallable } from "./firebase.js?v=20261020";
 
 export async function connectPatreon() {
   if (!auth.currentUser) {

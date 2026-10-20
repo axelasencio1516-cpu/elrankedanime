@@ -1,5 +1,5 @@
-import { annualRankings } from "./archive-data.js";
-import { db, doc, onSnapshot } from "./firebase.js";
+import { annualRankings } from "./archive-data.js?v=20261020";
+import { db, doc, onSnapshot } from "./firebase.js?v=20261020";
 
 const showMatching = (selector, query, display = "flex") => {
   document.querySelectorAll(selector).forEach((element) => {

@@ -1,6 +1,6 @@
-import { db, doc, runTransaction } from "./firebase.js";
-import { getCurrentUser, getProfile, setProfile } from "./state.js";
-import { renderProfile } from "./profile.js";
+import { db, doc, runTransaction } from "./firebase.js?v=20261020";
+import { getCurrentUser, getProfile, setProfile } from "./state.js?v=20261020";
+import { renderProfile } from "./profile.js?v=20261020";
 
 async function updateProfile(mutator) {
   const user = getCurrentUser();

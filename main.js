@@ -1,12 +1,12 @@
-import { initAuth, openAuthModal, closeAuthModal, register, login, loginWithGoogle, logout } from "./auth.js";
-import { initProfile, openProfileModal, closeProfileModal } from "./profile.js";
-import { claimDailyReward, buyMultiplier, buyBadge, redeemPrize } from "./rewards.js";
-import { vote, loadMatch } from "./votes.js";
-import { connectPatreon } from "./patreon.js";
+import { initAuth, openAuthModal, closeAuthModal, register, login, loginWithGoogle, logout } from "./auth.js?v=20261020";
+import { initProfile, openProfileModal, closeProfileModal } from "./profile.js?v=20261020";
+import { claimDailyReward, buyMultiplier, buyBadge, redeemPrize } from "./rewards.js?v=20261020";
+import { vote, loadMatch } from "./votes.js?v=20261020";
+import { connectPatreon } from "./patreon.js?v=20261020";
 import {
   filterVideos, filterTop200, filterTop30, filterMuseum, filterVideoCategory, filterMuseumCategory, sortTop200,
   changeUefaCategory, showGroupStage, showFinalStage, closeFinalsModal, initFinalsModal, openYearModal, closeYearModal,
-} from "./catalog.js";
+} from "./catalog.js?v=20261020";
 
 Object.assign(window, {
   abrirModalAuth: openAuthModal, cerrarModalAuth: closeAuthModal,

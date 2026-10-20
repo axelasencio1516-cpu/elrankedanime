@@ -1,5 +1,5 @@
-import { db, doc, getDoc, runTransaction } from "./firebase.js";
-import { getCurrentUser, getVoteMultiplier } from "./state.js";
+import { db, doc, getDoc, runTransaction } from "./firebase.js?v=20261020";
+import { getCurrentUser, getVoteMultiplier } from "./state.js?v=20261020";
 
 export async function loadMatch() {
   try {

@@ -1,9 +1,9 @@
 import {
   auth, googleProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword,
   signInWithPopup, signOut, onAuthStateChanged,
-} from "./firebase.js";
-import { setCurrentUser, setProfile, defaultProfile } from "./state.js";
-import { loadProfile, renderProfile } from "./profile.js";
+} from "./firebase.js?v=20261020";
+import { setCurrentUser, setProfile, defaultProfile } from "./state.js?v=20261020";
+import { loadProfile, renderProfile } from "./profile.js?v=20261020";
 
 const emailInput = () => document.getElementById("modal-email");
 const passwordInput = () => document.getElementById("modal-password");
